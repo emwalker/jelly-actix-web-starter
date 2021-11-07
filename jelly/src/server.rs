@@ -3,7 +3,9 @@ use std::env;
 
 use actix_web::{dev, middleware, web, App, HttpServer, HttpResponse};
 use actix_web::web::ServiceConfig;
+use actix_web::dev::ServiceRequest;
 use actix_session::CookieSession;
+use actix_utils::future::ok;
 use sqlx::postgres::PgPoolOptions;
 use sqlxmq::{JobRegistry, NamedJob};
 
@@ -97,14 +99,8 @@ impl Server {
                 .wrap(session_storage)
                 // Depending on your CORS needs, you may opt to change this 
                 // block. Up to you.
-                .default_service(
-                    web::resource("")
-                        .route(web::get().to(crate::utils::not_found))
-                        .route(web::head().to(HttpResponse::MethodNotAllowed))
-                        .route(web::delete().to(HttpResponse::MethodNotAllowed))
-                        .route(web::patch().to(HttpResponse::MethodNotAllowed))
-                        .route(web::put().to(HttpResponse::MethodNotAllowed))
-                        .route(web::post().to(HttpResponse::MethodNotAllowed))
+                .default_service(|r: ServiceRequest| 
+                    ok(r.into_response(HttpResponse::NotFound()))
                 )
                 .configure(crate::utils::static_handler);
             

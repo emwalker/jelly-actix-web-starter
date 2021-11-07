@@ -1,5 +1,4 @@
 //! Your Service Description here, etc.
-
 use std::io;
 
 #[macro_use] extern crate log;
@@ -8,7 +7,7 @@ pub mod accounts;
 pub mod dashboard;
 pub mod pages;
 
-use jelly::{actix_web, Server};
+use jelly::Server;
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {

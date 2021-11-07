@@ -56,8 +56,10 @@ pub async fn request_reset(
 /// such is Rust for this type of thing. Write it once and move on. ;P
 pub async fn with_token(
     request: HttpRequest,
-    Path((uidb64, ts, token)): Path<(String, String, String)>
+    path: Path<(String, String, String)>
 ) -> Result<HttpResponse> {
+    let (uidb64, ts, token) = path.into_inner();
+
     if let Ok(_account) = validate_token(&request, &uidb64, &ts, &token).await {
         return request.render(200, "accounts/reset_password/change_password.html", {
             let mut context = Context::new();
@@ -76,9 +78,10 @@ pub async fn with_token(
 /// them to the dashboard with a flash message.
 pub async fn reset(
     request: HttpRequest,
-    Path((uidb64, ts, token)): Path<(String, String, String)>,
+    path: Path<(String, String, String)>,
     form: Form<ChangePasswordForm>
 ) -> Result<HttpResponse> {
+    let (uidb64, ts, token) = path.into_inner();
     let mut form = form.into_inner();
     
     if let Ok(account) = validate_token(&request, &uidb64, &ts, &token).await {       

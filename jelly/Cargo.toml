@@ -10,10 +10,12 @@ lto = true
 opt-level = 3
 
 [dependencies]
-actix-files = { version = "0.4", optional = true }
+actix-files = { version = "0.6.0-beta.8", optional = true }
+actix-http = "3.0.0-beta.11"
 actix-service = "1.0.5"
-actix-session = "0.5.0-beta.1"
-actix-web = "4.0.0-beta.6"
+actix-session = "0.5.0-beta.3"
+actix-utils = "3.0.0"
+actix-web = "4.0.0-beta.10"
 actix-rt = "1"
 anyhow = "1.0"
 async-trait = "0.1.24"

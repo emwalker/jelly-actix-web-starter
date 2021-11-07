@@ -31,7 +31,7 @@ impl FlashMessages for HttpRequest {
             title: title.to_string(),
             message: message.to_string()
         });
-        session.set("flsh", messages)?;
+        session.insert("flsh", messages)?;
 
         Ok(())
     }

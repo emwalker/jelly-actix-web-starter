@@ -27,7 +27,7 @@ impl Authentication for HttpRequest {
     }
 
     fn set_user(&self, account: User) -> Result<()> {
-        self.get_session().set("sku", account)?;
+        self.get_session().insert("sku", account)?;
         Ok(())
     }
 

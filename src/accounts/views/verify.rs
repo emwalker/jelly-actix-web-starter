@@ -19,8 +19,10 @@ pub async fn verify(request: HttpRequest) -> Result<HttpResponse> {
 /// should simply report as "invalid or expired". 
 pub async fn with_token(
     request: HttpRequest,
-    Path((uidb64, ts, token)): Path<(String, String, String)>
+    path: Path<(String, String, String)>
 ) -> Result<HttpResponse> {
+    let (uidb64, ts, token) = path.into_inner();
+
     if let Ok(account) = validate_token(&request, &uidb64, &ts, &token).await {
         let db = request.db_pool()?;
         Account::mark_verified(account.id, db).await?;
